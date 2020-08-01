@@ -65,6 +65,17 @@ curl -X GET -G \
 http://localhost:8080/scrap
 ```
 
+### Observações
+
+- Há um limite no número de requisições que se pode fazer na API do Instagram.
+  Não sei ao certo o número, mas após eu testar muito o meu projeto o Instagram
+  começou a me retornar mensagem de erro, dizendo pra eu esperar uns minutos
+  antes de tentar novamente. Após aguardar uns minutos pude voltar a utilizar a
+  API
+- Há um limite de 49 comentários que dá para consultar por postagem individual.
+  Não sei ao certo se isto é um limite da API do Instagram ou se é da biblioteca
+  `instagram-web-api`
+
 ## Bibliotecas utilizadas
 
 - express: https://expressjs.com/pt-br/
