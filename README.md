@@ -12,15 +12,6 @@ postagens do Instagram.
 ```sh
 git clone https://github.com/giordanna/br-scrapping-instagram.git (ou só baixa mesmo o projeto)
 npm i
-node server.js (ou npm run start)
-```
-
-Ele usa por padrão a porta 8080. Você pode trocar utilizando --port ou -p, como
-nos exemplos abaixo:
-
-```sh
-node server.js --port=4000
-node server.js -p 4000
 ```
 
 ## Execução
