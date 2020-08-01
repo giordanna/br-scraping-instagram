@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrapping de comentários do Instagram</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Arial, Helvetica, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        width: 1024px;
+        max-width: 90%;
+        margin: 0 auto;
+        margin-top: 32px;
+      }
+
+      label {
+        display: block;
+        margin-top: 8px;
+        margin-bottom: 4px;
+      }
+
+      #submit {
+        margin-top: 12px;
+      }
+
+      #erro {
+        color: brown;
+        font-weight: bolder;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Scrapping de comentários do Instagram</h2>
+
+    <p>
+      Este projeto utiliza uma biblioteca que facilita o uso da API do
+      Instagram. O foco é retornar os comentários de postagens de determinado(s)
+      usuário(s), dentro de um período de tempo escolhido.
+    </p>
+
+    <p>
+      É necessário login, para que assim a API possa acessar os usuários que
+      estão com conta privada. Esses usuários precisam ter lhe dado permissão
+      para seguir para assim poder fazer scraping de seus comentários.
+    </p>
+
+    <p>
+      <strong>Uso:</strong>
+      <span id="base-url"></span
+      >/scrap?username=usuario&senha=senha&usuarios=usuario1,usuario2,etc&inicio=DD/MM/AAAA&fim=DD/MM/AAAA
+    </p>
+
+    <p>
+      Abaixo foi criado um formulário para preencher com mais facilidade estas
+      informações. Está tudo sendo passado pera URL pois a intenção deste
+      projeto é ser executado localmente, no seu computador, e nunca online.
+    </p>
+
+    <p>
+      Ao clicar em enviar, será aberta uma nova aba, que poderá demorar um tempo
+      até que termine de carregar. A aba então retornará um arquivo JSON,
+      separado por usuário, suas postagens e comentários.
+    </p>
+
+    <form id="form">
+      <div id="erro"></div>
+      <div>
+        <label for="usuario">Usuário:*</label>
+        <input
+          required
+          type="text"
+          id="usuario"
+          name="usuario"
+          placeholder="usuario.123"
+        />
+      </div>
+
+      <div>
+        <label for="senha">Senha:*</label>
+        <input
+          required
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="senha123"
+        />
+      </div>
+
+      <div>
+        <label for="usuarios">
+          Usuários para buscar comentários (obrigatório pelo menos 1. Pode
+          passar uma lista separado por vírgula (,) ou inserindo
+          individualmente):*
+        </label>
+        <input
+          type="text"
+          id="usuarios"
+          name="usuarios"
+          placeholder="usuario.pesquisado"
+          onkeyup="adicionarUsuarioPorEnter(event)"
+        />
+        <button type="button" onclick="adicionarUsuario()">Adicionar</button>
+        <div id="lista-usuarios"></div>
+      </div>
+
+      <div>
+        <label for="inicio">Data de início das postagens:*</label>
+        <input required type="date" id="inicio" name="inicio" />
+      </div>
+
+      <div>
+        <label for="fim">Data de fim das postagens:*</label>
+        <input required type="date" id="fim" name="fim" />
+      </div>
+
+      <div>
+        <label for="quantidade_posts">
+          Quantidade de posts a ser consultado (considera total, sem contar
+          filtro de tempo):
+        </label>
+        <input
+          type="number"
+          min="1"
+          value="56"
+          id="quantidade_posts"
+          name="quantidade_posts"
+        />
+      </div>
+
+      <div>
+        <button type="button" id="submit" onclick="enviar(event)">
+          Enviar
+        </button>
+      </div>
+    </form>
+
+    <script>
+      const baseUrl = window.location.protocol + '//' + window.location.host;
+      const baseUrlDom = document.getElementById('base-url');
+      baseUrlDom.innerText = baseUrl;
+
+      const listaUsuarios = [];
+
+      atualizaListaUsuarios = () => {
+        const listaDom = document.getElementById('lista-usuarios');
+
+        listaTexto = '<ul>';
+        listaUsuarios.map(usuario => {
+          listaTexto += `<li>${usuario} <button type="button" onclick="removerUsuario('${usuario}')">X</button></li>`;
+        });
+        listaTexto += '</ul>';
+
+        listaDom.innerHTML = listaTexto;
+      };
+
+      adicionarUsuario = () => {
+        const usuariosInput = document.getElementById('usuarios');
+        const usuarioValor = usuariosInput.value;
+
+        const possivelLista = usuarioValor.replace(' ', '').split(',');
+
+        possivelLista.map(usuario => {
+          if (
+            usuario !== undefined &&
+            usuario !== '' &&
+            listaUsuarios.indexOf(usuario) === -1
+          ) {
+            listaUsuarios.push(usuario);
+
+            atualizaListaUsuarios();
+          }
+        });
+
+        usuariosInput.value = '';
+      };
+
+      removerUsuario = usuario => {
+        const index = listaUsuarios.indexOf(usuario);
+
+        if (index !== -1) {
+          listaUsuarios.splice(index, 1);
+        }
+
+        atualizaListaUsuarios();
+      };
+
+      adicionarUsuarioPorEnter = event => {
+        if (event.keyCode === 13) {
+          adicionarUsuario();
+        }
+      };
+
+      enviar = event => {
+        event.preventDefault();
+
+        const objeto = {
+          usuario: document.getElementById('usuario').value,
+          senha: document.getElementById('senha').value,
+          inicio: document.getElementById('inicio').value,
+          fim: document.getElementById('fim').value,
+          quantidade_posts:
+            document.getElementById('quantidade_posts').value !== undefined &&
+            document.getElementById('quantidade_posts').value !== ''
+              ? document.getElementById('quantidade_posts').value
+              : 56,
+        };
+
+        if (
+          objeto.usuario === undefined ||
+          objeto.senha === undefined ||
+          listaUsuarios.length == 0 ||
+          objeto.inicio === undefined ||
+          objeto.fim === undefined
+        ) {
+          mostraErro('Preencha os campos obrigatórios');
+          return;
+        }
+
+        window.open(
+          `/scrap?usuario=${objeto.usuario.replace(' ', '')}&senha=${
+            objeto.senha
+          }&usuarios=${listaUsuarios.join(',')}&inicio=${objeto.inicio
+            .split('-')
+            .reverse()
+            .join('/')}&fim=${objeto.fim
+            .split('-')
+            .reverse()
+            .join('/')}&quantidade_posts=${objeto.quantidade_posts}`,
+          '_blank',
+        );
+      };
+
+      mostraErro = erro => {
+        let erroDom = document.getElementById('erro');
+        erroDom.innerText = erro;
+
+        setTimeout(() => {
+          erroDom.innerText = '';
+        }, 10000);
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "br-scrapping-instagram",
+  "version": "1.0.0",
+  "description": "Retorna um JSON mais amigável, resultante de scrapping de comentários das postagens do Instagram",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Giordanna De Gregoriis",
+  "license": "MIT License",
+  "dependencies": {
+    "express": "^4.17.1",
+    "instagram-web-api": "^2.2.0",
+    "minimist": "^1.2.5"
+  }
+}
