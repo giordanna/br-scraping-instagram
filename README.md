@@ -1,6 +1,6 @@
-# Scrapping de comentários do Instagram
+# Scraping de comentários do Instagram
 
-Retorna um JSON mais amigável, resultante de scrapping de comentários das
+Retorna um JSON mais amigável, resultante de scraping de comentários das
 postagens do Instagram.
 
 ### Requisitos
@@ -10,7 +10,7 @@ postagens do Instagram.
 ## Instalação
 
 ```sh
-git clone https://github.com/giordanna/br-scrapping-instagram.git (ou só baixa mesmo o projeto)
+git clone https://github.com/giordanna/br-scraping-instagram.git (ou só baixa mesmo o projeto)
 npm i
 ```
 

@@ -1,7 +1,7 @@
 {
-  "name": "br-scrapping-instagram",
+  "name": "br-scraping-instagram",
   "version": "1.0.0",
-  "description": "Retorna um JSON mais amigável, resultante de scrapping de comentários das postagens do Instagram",
+  "description": "Retorna um JSON mais amigável, resultante de scraping de comentários das postagens do Instagram",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
