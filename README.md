@@ -3,6 +3,22 @@
 Retorna um JSON mais amigável, resultante de scraping de comentários das
 postagens do Instagram.
 
+Este projeto utiliza uma biblioteca que facilita o uso da API do Instagram. O
+foco é retornar os comentários de postagens de determinado(s) usuário(s), dentro
+de um período de tempo escolhido.
+
+É necessário login, para que assim a API possa acessar os usuários que estão com
+conta privada. Esses usuários precisam ter lhe dado permissão para seguir para
+assim poder fazer scraping de seus comentários.
+
+Foi criado um formulário para preencher com mais facilidade estas informações.
+Está tudo sendo passado pera URL pois a intenção deste projeto é ser executado
+localmente, no seu computador, e nunca online.
+
+Ao clicar em enviar, será aberta uma nova aba, que poderá demorar um tempo até
+que termine de carregar. A aba então retornará um arquivo JSON, separado por
+usuário, suas postagens e comentários.
+
 ### Requisitos
 
 - Node.js (utilizei v10.16.0): https://nodejs.org/en/
