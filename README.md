@@ -19,7 +19,7 @@ Ao clicar em enviar, será aberta uma nova aba, que poderá demorar um tempo at�
 que termine de carregar. A aba então retornará um arquivo JSON, separado por
 usuário, suas postagens e comentários.
 
-### 📌 Tecnologias
+## 📌 Tecnologias
 
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/pt-br/)
