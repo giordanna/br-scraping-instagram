@@ -26,14 +26,15 @@ usuário, suas postagens e comentários.
 ## Instalação
 
 ```sh
-git clone https://github.com/giordanna/br-scraping-instagram.git (ou só baixa mesmo o projeto)
-npm i
+git clone https://github.com/giordanna/br-scraping-instagram.git # ou só baixa mesmo o projeto
+cd /br-scraping-instagram # ou só entre mesmo na pasta baixada
+npm i # instala as dependências do projeto
 ```
 
 ## Execução
 
 ```sh
-node server.js (ou npm run start)
+node server.js # ou npm run start
 ```
 
 Ele usa por padrão a porta 8080. Você pode trocar utilizando --port ou -p, como
@@ -41,6 +42,7 @@ nos exemplos abaixo:
 
 ```sh
 node server.js --port=4000
+# ou
 node server.js -p 4000
 ```
 
