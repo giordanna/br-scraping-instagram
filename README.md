@@ -1,4 +1,4 @@
-# Scraping de comentários do Instagram
+# 📸 Scraping de comentários do Instagram
 
 Retorna um JSON mais amigável, resultante de scraping de comentários das
 postagens do Instagram.
@@ -19,11 +19,14 @@ Ao clicar em enviar, será aberta uma nova aba, que poderá demorar um tempo at�
 que termine de carregar. A aba então retornará um arquivo JSON, separado por
 usuário, suas postagens e comentários.
 
-### Requisitos
+### 📌 Tecnologias
 
-- Node.js (utilizei v10.16.0): https://nodejs.org/en/
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/pt-br/)
+- [instagram-web-api](https://github.com/jlobos/instagram-web-api)
+- [minimist](https://www.npmjs.com/package/minimist)
 
-## Instalação
+## 📂 Instalação
 
 ```sh
 git clone https://github.com/giordanna/br-scraping-instagram.git
@@ -33,7 +36,7 @@ cd br-scraping-instagram
 npm i
 ```
 
-## Execução
+## 🚀 Execução
 
 ```sh
 node server.js
@@ -53,7 +56,7 @@ node server.js -p 4000
 Agora é só visitar https://localhost:8080/ (ou com outra porta que você
 definir). Lá terá um formulário que facilita bem o uso do projeto.
 
-### Usando cURL
+### 💻 Usando cURL
 
 Se achar melhor fazer através do terminal, o uso se segue da seguinte forma:
 
@@ -72,7 +75,7 @@ curl -X GET -G \
 http://localhost:8080/scrap
 ```
 
-### Observações
+### 🔎 Observações
 
 - Há um limite no número de requisições que se pode fazer na API do Instagram.
   Não sei ao certo o número, mas após eu testar muito o meu projeto o Instagram
@@ -83,12 +86,9 @@ http://localhost:8080/scrap
   Não sei ao certo se isto é um limite da API do Instagram ou se é da biblioteca
   `instagram-web-api`
 
-## Bibliotecas utilizadas
+## 📕 Licença
 
-- express: https://expressjs.com/pt-br/
-- instagram-web-api: https://github.com/jlobos/instagram-web-api
-- minimist: https://www.npmjs.com/package/minimist
+Lançado em 2020. Projeto sob a
+[Licença MIT](https://choosealicense.com/licenses/mit/).
 
-## Licença
-
-MIT License
+Feito com ❤️ por [Giordanna De Gregoriis](https://github.com/giordanna).
