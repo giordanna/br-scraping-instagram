@@ -26,15 +26,19 @@ usuário, suas postagens e comentários.
 ## Instalação
 
 ```sh
-git clone https://github.com/giordanna/br-scraping-instagram.git # ou só baixa mesmo o projeto
-cd /br-scraping-instagram # ou só entre mesmo na pasta baixada
-npm i # instala as dependências do projeto
+git clone https://github.com/giordanna/br-scraping-instagram.git
+cd br-scraping-instagram
+
+# instala as dependências do projeto
+npm i
 ```
 
 ## Execução
 
 ```sh
-node server.js # ou npm run start
+node server.js
+# ou
+npm run start
 ```
 
 Ele usa por padrão a porta 8080. Você pode trocar utilizando --port ou -p, como
@@ -57,6 +61,7 @@ Se achar melhor fazer através do terminal, o uso se segue da seguinte forma:
 curl -X GET "http://localhost:8080/scrap?usuario=usuario&senha=senha&usuarios=usuario1,usuario2&inicio=DD/MM/AAAA&fim=DD/MM/AAAA&quantidade_posts=56"
 
 # ou, de uma forma mais legível
+
 curl -X GET -G \
 -d 'usuario=usuario' \
 -d 'senha=senha' \
