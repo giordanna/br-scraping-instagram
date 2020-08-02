@@ -30,6 +30,7 @@ usuário, suas postagens e comentários.
 
 ```sh
 git clone https://github.com/giordanna/br-scraping-instagram.git
+
 cd br-scraping-instagram
 
 # instala as dependências do projeto
@@ -41,7 +42,7 @@ npm i
 ```sh
 node server.js
 # ou
-npm run start
+npm start
 ```
 
 Ele usa por padrão a porta 8080. Você pode trocar utilizando --port ou -p, como
@@ -82,9 +83,6 @@ http://localhost:8080/scrap
   começou a me retornar mensagem de erro, dizendo pra eu esperar uns minutos
   antes de tentar novamente. Após aguardar uns minutos pude voltar a utilizar a
   API
-- Há um limite de 49 comentários que dá para consultar por postagem individual.
-  Não sei ao certo se isto é um limite da API do Instagram ou se é da biblioteca
-  `instagram-web-api`
 
 ## 📕 Licença
 

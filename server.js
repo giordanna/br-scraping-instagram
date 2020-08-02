@@ -134,48 +134,75 @@ server.get('/scrap', async (req, res) => {
         dataInicio <= objetoPostagem.dataPostagem &&
         objetoPostagem.dataPostagem <= dataFim
       ) {
+        objetoPostagem.dataPostagem = objetoPostagem.dataPostagem.toLocaleString();
         listaShortCodesComTempo.push(objetoPostagem);
       }
     });
 
-    // prepara objeto que terá os comentários por post
-    // o objeto terá o texto do comentário, a data quando o comentário foi feito e o username de quem comentou
     let comentariosPorPost = [];
 
     for (let j = 0; j < listaShortCodesComTempo.length; j++) {
-      const resp2 = await client
-        .getMediaComments({
-          shortcode: listaShortCodesComTempo[j].shortcode,
-          first: '49', // esta é a quantidade máxima de comentários que pode ser consultada
-          after: '',
-        })
-        .catch(error => {
-          // retorna erro caso aconteça (post não existe, timeout, etc). erro estará no formato que a API do Instagram retorna
-          return res.status(500).send(error);
-        });
-
+      // prepara objeto que terá os comentários por post
+      // o objeto terá o texto do comentário, a data quando o comentário foi feito e o username de quem comentou
       const comentariosLista = [];
 
-      // para cada comentário, trata o objeto
-      resp2.edges.map(edge => {
-        const objetoComentario = {
-          textoComentario: edge.node.text,
-          dataComentario: new Date(edge.node.created_at * 1000),
-          usuarioComentario: edge.node.owner.username,
-        };
+      let continuaBuscando = true;
+      let pointer = '';
 
-        comentariosLista.push(objetoComentario);
-      });
+      // se 49 não trouxer todos os comentários, haverá paginação
+      while (continuaBuscando) {
+        const resp2 = await client
+          .getMediaComments({
+            shortcode: listaShortCodesComTempo[j].shortcode,
+            first: '49', // esta é a quantidade máxima de comentários que pode ser consultada
+            after: pointer, // paginação
+          })
+          .catch(error => {
+            // retorna erro caso aconteça (post não existe, timeout, etc). erro estará no formato que a API do Instagram retorna
+            continuaBuscando = false;
+            return res.status(500).send(error);
+          });
 
-      const objetoComentarios = {
-        quantidadeComentarios: resp2.count,
-        comentarios: comentariosLista,
-      };
+        // para cara comentário, trata e trata também as respostas
+        resp2.edges.map(edge => {
+          comentariosLista.push({
+            textoComentario: edge.node.text,
+            dataComentario: new Date(
+              edge.node.created_at * 1000,
+            ).toLocaleString(),
+            usuarioComentario: edge.node.owner.username,
+            // trata os comentários que são resposta deste comentário
+            respostasComentario: edge.node.edge_threaded_comments.edges.map(
+              edgeResposta => {
+                return {
+                  textoComentario: edgeResposta.node.text,
+                  dataComentario: new Date(
+                    edgeResposta.node.created_at * 1000,
+                  ).toLocaleString(),
+                  usuarioComentario: edgeResposta.node.owner.username,
+                };
+              },
+            ),
+          });
+        });
 
-      // objeto que contem a postagem e os comentários ligados a esta postagem
+        // se tiver paginação, pesquisa novamente
+        if (resp2.page_info.has_next_page) {
+          // esse ponteiro pode ser array, tem que tentar converter pra string se for
+          pointer = resp2.page_info.end_cursor;
+          try {
+            pointer = JSON.parse(pointer);
+            pointer = JSON.stringify(pointer);
+          } catch (e) {}
+        } else {
+          // se não, para o loop while
+          continuaBuscando = false;
+        }
+      }
+
       comentariosPorPost.push({
         postagem: listaShortCodesComTempo[j],
-        detalhesComentarios: objetoComentarios,
+        detalhesComentarios: comentariosLista,
       });
     }
 
@@ -189,8 +216,10 @@ server.get('/scrap', async (req, res) => {
   return res.json(postsDeUsuarios);
 });
 
+server.use('/static', express.static('pagina'));
+
 server.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/pagina/index.html');
 });
 
 server.listen(port, () => {
