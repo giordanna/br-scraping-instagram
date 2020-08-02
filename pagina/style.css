@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial,
+    Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  width: 1024px;
+  max-width: 90%;
+  margin: 0 auto;
+  margin-top: 32px;
+}
+
+label {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+#submit {
+  margin-top: 12px;
+}
+
+#erro {
+  color: brown;
+  font-weight: bolder;
+}

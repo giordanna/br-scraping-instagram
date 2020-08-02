@@ -30,6 +30,7 @@ usuário, suas postagens e comentários.
 
 ```sh
 git clone https://github.com/giordanna/br-scraping-instagram.git
+
 cd br-scraping-instagram
 
 # instala as dependências do projeto
@@ -41,7 +42,7 @@ npm i
 ```sh
 node server.js
 # ou
-npm run start
+npm start
 ```
 
 Ele usa por padrão a porta 8080. Você pode trocar utilizando --port ou -p, como
